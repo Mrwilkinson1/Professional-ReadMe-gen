@@ -3,9 +3,7 @@ const fs = require('fs')
 const inquirer = require('inquirer');
 const generateMarkdown = require('./utils/generateMarkdown'); 
 
-// Questions asked
-const questions = 
-[
+const questions  = [
 {
     // Title of Project
     type: "input",
@@ -29,25 +27,25 @@ const questions =
     name: "Usage",
 },
 {
-    type: "input",
-    message: "List liecense's",
+    type: "list",
+    message: "List license's",
     name: "License",
-    choices: [],
+    choices: ["MIT", "APACHE"],
 },
 {
-    type: "input"
-    message: "How would you contribute",
+    type: "input",
+    message: "How would you contribute?",
     name: "Contributing",
 },
 {
     type: "input",
-    message: "Provide test instructions",
+    message: "Provide test instructions.",
     name: "Tests",
 },
 {
     type: "input",
-    message: "",
-    name: "",
+    message: "Provide any additional information. ",
+    name: "Information",
 },
 {
     type: "input",
@@ -60,23 +58,16 @@ const questions =
     name: "Github",
 },
 
-
-
-
-
-
-
 ];
 
-// TODO: Create a function to write README file
-function writeToFile(fileName, data) {
-    fs.writeFileSync(fileName, data)
-};
+inquirer.prompt(questions)
+.then((data) => {
 
-// TODO: Create a function to initialize app
-function init() {
-
-}
-
-// Function call to initialize app
-init();
+    fs.writeFile('auto-generated-readme.md',generateMarkdown(data) , (err) => {
+        if(err) 
+            {console.error(err)} 
+        
+        else    
+            {console.log('')}
+    })
+})
